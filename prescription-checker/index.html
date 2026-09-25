@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>وِقاية | فحص تعارض الأدوية</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💊</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 48 48" width="30" height="30"><path d="M14 20 L28 6 A9.9 9.9 0 0 1 42 20 L28 34 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><path d="M6 42 L20 28 L26 34 L12 48 Z" fill="none" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/><line x1="20" y1="16" x2="30" y2="26" stroke="currentColor" stroke-width="4"/></svg>
+    </span>
+    <span data-i18n="app_name">وِقاية</span>
+  </div>
+  <button id="langToggle" class="lang-toggle" type="button">EN</button>
+</header>
+
+<main>
+  <section class="hero">
+    <h1 data-i18n="hero_title">دواء يعالج ودواء يتعارض — قبل ما ياخدهم كبير السن مع بعض، اتأكدي.</h1>
+    <p class="hero-sub" data-i18n="hero_sub">
+      لما المريض بيروح لأكتر من دكتور، كل دكتور بيكتب من غير ما يشوف روشتة التاني. هنا بتجمعي كل الأدوية في مكان واحد وتشوفي أي تعارض خطير بينهم.
+    </p>
+  </section>
+
+  <section class="panel add-panel">
+    <h2 data-i18n="add_title">1) ضيفي الأدوية</h2>
+    <p class="hint" data-i18n="add_hint">اكتبي الاسم التجاري أو الاسم العلمي (عربي أو إنجليزي) — هيظهرلك اقتراحات تلقائيًا حتى لو الإملاء مش مظبوط.</p>
+
+    <div class="search-row">
+      <input id="drugInput" type="text" autocomplete="off" placeholder="مثال: كونكور، Voltaren، ميتفورمين ..." data-i18n-placeholder="search_placeholder">
+      <div id="suggestions" class="suggestions" hidden></div>
+    </div>
+
+    <div id="chipList" class="chip-list" aria-live="polite"></div>
+  </section>
+
+  <section class="panel ocr-panel">
+    <div class="panel-header-row">
+      <h2 data-i18n="ocr_title">2) أو صوّري الروشتة (تجريبي)</h2>
+      <span class="badge" data-i18n="badge_experimental">تجريبي</span>
+    </div>
+    <p class="hint" data-i18n="ocr_hint">
+      قراءة خط الأطباء بالكاميرا لسه في تطوير — النتيجة بتتحسن بمقارنة كل كلمة مستخرجة بأقرب اسم دواء حقيقي في القاعدة (تصحيح ذكي)، لكن التسجيل اليدوي فوق أدق وأضمن.
+    </p>
+    <label class="file-drop" id="fileDrop">
+      <input id="fileInput" type="file" accept="image/*" hidden>
+      <span data-i18n="ocr_upload">اختاري صورة روشتة</span>
+    </label>
+    <div id="ocrStatus" class="ocr-status" hidden></div>
+    <div id="ocrRaw" class="ocr-raw" hidden>
+      <h3 data-i18n="ocr_raw_title">النص المستخرج (خام)</h3>
+      <pre id="ocrRawText"></pre>
+      <h3 data-i18n="ocr_matched_title">أقرب أدوية مطابقة — راجعيها قبل الإضافة</h3>
+      <div id="ocrMatches" class="ocr-matches"></div>
+    </div>
+  </section>
+
+  <section class="panel results-panel">
+    <h2 data-i18n="results_title">3) نتيجة الفحص</h2>
+    <div id="resultsEmpty" class="results-empty" data-i18n="results_empty">
+      ضيفي دوائين على الأقل عشان نبدأ نفحص التعارضات بينهم.
+    </div>
+    <div id="resultsList" class="results-list"></div>
+  </section>
+
+  <section class="panel about-panel">
+    <h2 data-i18n="about_title">عن الأداة</h2>
+    <p data-i18n="about_1">
+      قاعدة التعارضات المستخدمة هنا عينة تجريبية للتوضيح، مش القاعدة الكاملة لـ DrugBank أو RxNorm. لاستخدام حقيقي في العيادة أو الصيدلية، لازم ربطها بقاعدة بيانات رسمية محدّثة.
+    </p>
+    <p data-i18n="about_2">
+      الأداة دي مش بديل عن الطبيب أو الصيدلي — استخدميها كتنبيه أولي وارجعي للصيدلي أو الدكتور لو ظهر تعارض متوسط أو خطير.
+    </p>
+    <p><a href="eval.html" style="color:var(--primary); font-weight:700;">📊 شوفي مقارنة الدقة: OCR عادي مقابل التصحيح الذكي</a></p>
+  </section>
+</main>
+
+<footer>
+  <span data-i18n="footer_text">صُمم لمساعدة كبار السن وأسرهم — راجعي أي تنبيه مع الصيدلي دايمًا.</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/5.1.1/tesseract.min.js"></script>
+<script src="db.js"></script>
+<script src="match.js"></script>
+<script src="i18n.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

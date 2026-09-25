@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مقارنة الدقة | OCR عادي مقابل التصحيح الذكي</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  main.eval { max-width: 820px; }
+  .bar-row { margin-bottom: 18px; }
+  .bar-label { display:flex; justify-content:space-between; margin-bottom:6px; font-weight:600; }
+  .bar-track { background: var(--border); border-radius: 999px; height: 22px; overflow: hidden; }
+  .bar-fill { background: var(--primary); height: 100%; width: 0%; transition: width .6s ease; border-radius: 999px; }
+  #rawAcc .bar-fill { background: var(--medium); }
+  .metrics-row { display:flex; gap: 24px; margin-top: 6px; color: var(--text-muted); font-size:0.92rem; }
+  .improvement-box {
+    background: var(--safe-tint); color:#1E6B45; padding: 16px 20px; border-radius: 12px;
+    font-weight: 700; font-size: 1.15rem; text-align:center; margin: 20px 0;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-top: 10px; }
+  th, td { text-align: start; padding: 8px 10px; border-bottom: 1px solid var(--border); }
+  th { color: var(--text-muted); font-weight: 600; }
+  td.correct { color: var(--safe); font-weight: 700; }
+  td.wrong-match { color: var(--danger); font-weight: 700; }
+  td.no-match { color: var(--medium); font-weight: 700; }
+  .table-wrap { overflow-x: auto; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span data-i18n="app_name">وِقاية</span> — <span>مقارنة الدقة</span></div>
+  <a href="index.html" style="color:var(--primary-dark); font-weight:600; text-decoration:none;">→ رجوع للأداة</a>
+</header>
+
+<main class="eval">
+  <section class="hero">
+    <h1>هل "التصحيح الذكي" فعلاً بيحسّن الدقة؟</h1>
+    <p class="hero-sub">
+      اختبار على 30 حالة نصية تحاكي أخطاء قراءة شائعة (حروف ناقصة، تبديل حروف، خط عربي وإنجليزي)، بمقارنة استراتيجيتين:
+      <b>مطابقة نصية تامة</b> (زي OCR عادي من غير تصحيح) مقابل <b>مطابقة ضبابية (Levenshtein)</b> على قاعدة أسماء الأدوية.
+    </p>
+  </section>
+
+  <section class="panel">
+    <h2>النتيجة الإجمالية (Accuracy)</h2>
+    <div class="bar-row">
+      <div class="bar-label"><span>مطابقة نصية تامة (بدون تصحيح)</span></div>
+      <div class="bar-track" id="rawAcc"><div class="bar-fill"></div></div>
+      <div class="metrics-row">
+        <span>Precision: <span id="rawPrec"></span></span>
+        <span>Recall: <span id="rawRec"></span></span>
+      </div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label"><span>مع التصحيح الذكي (Fuzzy / Levenshtein)</span></div>
+      <div class="bar-track" id="fuzzyAcc"><div class="bar-fill"></div></div>
+      <div class="metrics-row">
+        <span>Precision: <span id="fuzzyPrec"></span></span>
+        <span>Recall: <span id="fuzzyRec"></span></span>
+      </div>
+    </div>
+    <div class="improvement-box">تحسّن الدقة: <span id="improvement"></span></div>
+  </section>
+
+  <section class="panel">
+    <h2>تفاصيل كل حالة اختبار</h2>
+    <div class="table-wrap">
+      <table id="detailTable">
+        <thead>
+          <tr><th>النص "المقروء" (محاكاة)</th><th>الدواء الصحيح</th><th>مطابقة تامة</th><th>تصحيح ذكي</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="panel about-panel">
+    <h2>ملاحظة منهجية</h2>
+    <p>
+      هذا اختبار اصطناعي (Synthetic) على نصوص مكتوبة يدويًا لمحاكاة أخطاء القراءة، وليس على صور روشتات حقيقية بخط أطباء فعلي —
+      لأن جمع عينة حقيقية موسومة (labeled) يحتاج موافقات أخلاقية وتصوير فعلي لروشتات. لعرض المسابقة، وضّحي هذه النقطة
+      واعتبري الرقم هنا "حد أدنى لقيمة التصحيح الذكي"، ثم لو توفر وقت صوّري عينة حقيقية صغيرة (10–20 روشتة) وكرري نفس القياس عليها.
+    </p>
+  </section>
+</main>
+
+<script src="db.js"></script>
+<script src="match.js"></script>
+<script src="eval.js"></script>
+</body>
+</html>
